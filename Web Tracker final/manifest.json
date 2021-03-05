@@ -1,0 +1,21 @@
+{
+    "manifest_version":2,
+    "name":"web tracker",
+    "version":"1.0",
+    "description":"To track the amount of time I spend on each website",
+    "browser_action":{
+        "default_popup":"popup.html"
+    },
+    "options_page":"options.html",
+    
+    "background":{
+        "scripts":["background.js"],
+        "persistent":true
+    },
+    "permissions":[
+        "tabs",
+        "storage",
+        "activeTab",
+        "notifications"
+    ]
+}
