@@ -10,16 +10,32 @@ function tm(tot){
     return str;
 }
 
-chrome.tabs.getSelected(null,function(tab){
-    var link=document.createElement('a');
-    link.href=tab.url;
-    var url=link.hostname;
-    $('#host').html(url);
-    var tot=parseInt(localStorage.getItem(url));
-    $('#total').text(tm(tot));
-    var today=JSON.parse(localStorage.getItem("today"));
-    var today_time=JSON.parse(localStorage.getItem("today_time"));
-    $('#t').text(tm(parseInt(today_time[today.indexOf(url)])));
-    $('#max').text(localStorage.getItem("max time site"));
-    $('#time').text(tm(parseInt(localStorage.getItem("max time spent"))));
-});
+var TODAY=JSON.parse(localStorage.getItem("today"));
+var TODAY_TIME=JSON.parse(localStorage.getItem("today_time"));
+
+var i;
+
+function generate(){
+    arr = [];
+    for(i=0;i<TODAY.length;i++){
+        arr.push({label : TODAY[i] , y : TODAY_TIME[i]/60});
+    }
+    return arr;
+}
+
+
+window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer", {
+        title:{
+            text: "Today's Activity"              
+        },
+        data: [              
+        {
+            // Change type to "doughnut", "line", "splineArea", etc.
+            type: "column",
+            dataPoints : generate()
+        }
+        ]
+    });
+    chart.render();
+}
